@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: movies-movies
+  name: movies
   labels:
     app.kubernetes.io/instance: movies
     app.kubernetes.io/version: "1.0.0"
