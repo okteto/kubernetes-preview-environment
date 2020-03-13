@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: movies-movies
+  labels:
+    app.kubernetes.io/instance: movies
+    app.kubernetes.io/version: "1.0.0"
+  annotations:
+    dev.okteto.com/generate-host: "true"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: movies-api
+              servicePort: 8080
+          - path: /
+            backend:
+              serviceName: movies-frontend
+              servicePort: 80

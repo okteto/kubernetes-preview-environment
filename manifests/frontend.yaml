@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: movies-frontend
+  labels:
+    app.kubernetes.io/instance: movies
+    app.kubernetes.io/version: "1.0.0"
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: movies-frontend
+    app.kubernetes.io/instance: movies
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movies-frontend
+  labels:
+    
+    app.kubernetes.io/instance: movies
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: movies-frontend
+      app.kubernetes.io/instance: movies
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: movies-frontend
+        app.kubernetes.io/instance: movies
+        app.kubernetes.io/component: frontend
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: frontend
+          image: okteto/movies-frontend
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            limits:
+              cpu: 1
