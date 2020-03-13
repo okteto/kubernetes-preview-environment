@@ -11,17 +11,17 @@ jobs:
       uses: actions/checkout@master
 
     - name: Login
-      uses: okteto/actions/login@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
+      uses: okteto/actions/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Create namespace
-      uses: okteto/actions/create-namespace@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
+      uses: okteto/actions/create-namespace@master
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
 
     - name: Deploy Application
-      uses: okteto/actions/apply@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
+      uses: okteto/actions/apply@master
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
         manifest: manifests
@@ -32,12 +32,12 @@ jobs:
         time: '30s'
 
     - name: Push API Changes
-      uses: okteto/actions/push@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
+      uses: okteto/actions/push@master
       with:
         working-directory: api
 
     - name: Push Frontend Changes
-      uses: okteto/actions/push@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
+      uses: okteto/actions/push@master
       with:
         working-directory: frontend
 
