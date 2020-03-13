@@ -42,7 +42,7 @@ jobs:
         working-directory: frontend
 
     - name: comment PR
-      uses: unsplash/comment-on-pr@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
+      uses: unsplash/comment-on-pr@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
