@@ -11,17 +11,17 @@ jobs:
       uses: actions/checkout@master
 
     - name: Login
-      uses: okteto/actions/login@master
+      uses: okteto/actions/login@507d4f01b11ea48f59d7cff42c53b25c94582ba3
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Create namespace
-      uses: okteto/actions/create-namespace@master
+      uses: okteto/actions/create-namespace@507d4f01b11ea48f59d7cff42c53b25c94582ba3
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
 
     - name: Deploy Application
-      uses: okteto/actions/apply@master
+      uses: okteto/actions/apply@507d4f01b11ea48f59d7cff42c53b25c94582ba3
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
         manifest: manifests
@@ -32,17 +32,17 @@ jobs:
         time: '30s'
 
     - name: Push API Changes
-      uses: okteto/actions/push@master
+      uses: okteto/actions/push@507d4f01b11ea48f59d7cff42c53b25c94582ba3
       with:
         working-directory: api
 
     - name: Push Frontend Changes
-      uses: okteto/actions/push@master
+      uses: okteto/actions/push@507d4f01b11ea48f59d7cff42c53b25c94582ba3
       with:
         working-directory: frontend
 
     - name: comment PR
-      uses: unsplash/comment-on-pr@master
+      uses: unsplash/comment-on-pr@507d4f01b11ea48f59d7cff42c53b25c94582ba3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
