@@ -11,17 +11,17 @@ jobs:
       uses: actions/checkout@master
 
     - name: Login
-      uses: okteto/actions/login@507d4f01b11ea48f59d7cff42c53b25c94582ba3
+      uses: okteto/actions/login@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Create namespace
-      uses: okteto/actions/create-namespace@507d4f01b11ea48f59d7cff42c53b25c94582ba3
+      uses: okteto/actions/create-namespace@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
 
     - name: Deploy Application
-      uses: okteto/actions/apply@507d4f01b11ea48f59d7cff42c53b25c94582ba3
+      uses: okteto/actions/apply@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
         manifest: manifests
@@ -32,17 +32,17 @@ jobs:
         time: '30s'
 
     - name: Push API Changes
-      uses: okteto/actions/push@507d4f01b11ea48f59d7cff42c53b25c94582ba3
+      uses: okteto/actions/push@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       with:
         working-directory: api
 
     - name: Push Frontend Changes
-      uses: okteto/actions/push@507d4f01b11ea48f59d7cff42c53b25c94582ba3
+      uses: okteto/actions/push@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       with:
         working-directory: frontend
 
     - name: comment PR
-      uses: unsplash/comment-on-pr@507d4f01b11ea48f59d7cff42c53b25c94582ba3
+      uses: unsplash/comment-on-pr@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

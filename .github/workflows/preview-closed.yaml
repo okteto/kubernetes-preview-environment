@@ -11,11 +11,11 @@ jobs:
       uses: actions/checkout@master
 
     - name: Login
-      uses: okteto/actions/login@master
+      uses: okteto/actions/login@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Delete namespace
-      uses: okteto/actions/delete-namespace@master
+      uses: okteto/actions/delete-namespace@00e3ef35e8ed47cb54f79347eb09a15432cb33ab
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
