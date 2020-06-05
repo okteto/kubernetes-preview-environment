@@ -86,9 +86,10 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /bitnami/mongodb
-          subPath: 
         resources:
-          {}
+          limits:
+            cpu: 250m
+            memory: 128Mi
       volumes:
       - name: data
         emptyDir: {}
