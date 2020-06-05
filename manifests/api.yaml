@@ -40,6 +40,29 @@ spec:
         app.kubernetes.io/component: api
     spec:
       terminationGracePeriodSeconds: 0
+      initContainers:
+        - name: load
+          image: okteto/movies-api
+          command:
+            - yarn
+            - load
+          imagePullPolicy: Always
+          env:
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: movies-mongodb
+                  key: mongodb-password
+            - name: MONGODB_USERNAME
+              value: okteto
+            - name: MONGODB_DATABASE
+              value: okteto
+            - name: MONGODB_HOST
+              value: movies-mongodb
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
       containers:
         - name: api
           image: okteto/movies-api
@@ -70,4 +93,5 @@ spec:
               port: 8080
           resources:
             limits:
-              cpu: 1
+              cpu: 250m
+              memory: 128Mi
