@@ -11,33 +11,28 @@ jobs:
       uses: actions/checkout@master
 
     - name: Login
-      uses: okteto/actions/login@master
+      uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Create namespace
-      uses: okteto/actions/create-namespace@master
+      uses: okteto/create-namespace@master
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
 
     - name: Deploy Application
-      uses: okteto/actions/apply@master
+      uses: okteto/apply@master
       with:
         namespace: pr-${{ github.event.number }}-rberrelleza
         manifest: manifests
 
-    - name: Wait / Sleep
-      uses: jakejarvis/wait-action@v0.1.0
-      with:
-        time: '30s'
-
     - name: Push API Changes
-      uses: okteto/actions/push@master
+      uses: okteto/push@master
       with:
         working-directory: api
 
     - name: Push Frontend Changes
-      uses: okteto/actions/push@master
+      uses: okteto/push@master
       with:
         working-directory: frontend
 
