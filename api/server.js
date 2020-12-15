@@ -23,7 +23,7 @@ function startWithRetry() {
     const db = client.db(process.env.MONGODB_DATABASE);
 
     app.listen(8080, () => {
-      app.get("/api/healthz", (req, res, next) => {
+      app.get("/api/health", (req, res, next) => {
         res.sendStatus(200)
         return;
       });
