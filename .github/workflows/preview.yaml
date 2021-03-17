@@ -27,8 +27,8 @@ jobs:
         timeout: 10m
 
     - name: comment PR
-      uses: unsplash/comment-on-pr@master
+      uses: okteto/notify-pr@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        msg: "Preview environment available at https://movies-pr-${{ github.event.number }}-cindylopez.cloud.okteto.net"
+        message: "Preview environment available at https://movies-pr-${{ github.event.number }}-cindylopez.cloud.okteto.net"
