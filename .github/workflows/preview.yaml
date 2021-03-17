@@ -27,7 +27,7 @@ jobs:
         timeout: 10m
 
     - name: comment PR
-      uses: unsplash/comment-on-pr@master
+      uses: okteto/notify-pr@b267455bea7308e61e75bd0158cbfb5d4c20b24c
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
