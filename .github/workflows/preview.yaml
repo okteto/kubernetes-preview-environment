@@ -18,27 +18,17 @@ jobs:
     - name: Create namespace
       uses: okteto/create-namespace@master
       with:
-        namespace: pr-${{ github.event.number }}-rberrelleza
+        namespace: pr-${{ github.event.number }}-cindylopez
 
     - name: Deploy Application
-      uses: okteto/apply@master
+      uses: okteto/pipeline@master
       with:
-        namespace: pr-${{ github.event.number }}-rberrelleza
-        manifest: manifests
-
-    - name: Push API Changes
-      uses: okteto/push@master
-      with:
-        working-directory: api
-
-    - name: Push Frontend Changes
-      uses: okteto/push@master
-      with:
-        working-directory: frontend
+        namespace: pr-${{ github.event.number }}-cindylopez
+        timeout: 10m
 
     - name: comment PR
       uses: unsplash/comment-on-pr@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        msg: "Preview environment available at https://movies-pr-${{ github.event.number }}-rberrelleza.cloud.okteto.net"
+        msg: "Preview environment available at https://movies-pr-${{ github.event.number }}-cindylopez.cloud.okteto.net"
