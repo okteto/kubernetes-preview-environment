@@ -11,8 +11,6 @@ function startWithRetry() {
     useNewUrlParser: true,
     connectTimeoutMS: 1000,
     socketTimeoutMS: 1000,
-    reconnectTries: 100,
-    reconnectInterval: 1000
   }, (err, client) => {
     if (err) {
       console.error(`Error connecting, retrying in 1 sec: ${err}`);
@@ -29,6 +27,7 @@ function startWithRetry() {
       });
 
       app.get("/api/movies", (req, res, next) => {
+        console.log(`GET /api/movies`)
         db.collection('movies').find().toArray( (err, results) =>{
           if (err){
             console.log(`failed to query movies: ${err}`)
@@ -40,6 +39,7 @@ function startWithRetry() {
       });
 
       app.get("/api/watching", (req, res, next) => {
+        console.log(`GET /api/watching`)
         db.collection('movies').find().toArray( (err, results) =>{
           if (err){
             console.log(`failed to query watching: ${err}`)
