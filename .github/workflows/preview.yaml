@@ -27,7 +27,7 @@ jobs:
         timeout: 10m
 
     - name: comment PR
-      uses: okteto/notify-pr@ce4fa79472e77576e426ba9f87c12fd66b495b63
+      uses: okteto/notify-pr@c15eaf22423bcb1f8f8f4dad41f69d5763110402
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
