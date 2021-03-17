@@ -4,7 +4,7 @@ on:
       - closed
 
 jobs:
-  build:
+  closed:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
