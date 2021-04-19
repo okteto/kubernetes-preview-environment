@@ -19,12 +19,12 @@ jobs:
       uses: okteto/create-namespace@master
       with:
         namespace: pr-${{ github.event.number }}-cindylopez
-        name: pr-${{ github.event.number }}
 
     - name: Deploy Application
       uses: okteto/pipeline@master
       with:
         namespace: pr-${{ github.event.number }}-cindylopez
+        name: pr-${{ github.event.number }}
         timeout: 10m
 
     - name: comment PR
