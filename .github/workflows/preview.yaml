@@ -24,6 +24,7 @@ jobs:
       uses: okteto/pipeline@master
       with:
         namespace: pr-${{ github.event.number }}-cindylopez
+        name: pr-${{ github.event.number }}
         timeout: 10m
 
     - name: comment PR
