@@ -1,7 +1,7 @@
 on: 
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   preview:
@@ -14,16 +14,17 @@ jobs:
       uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
+        url: ${{ secrets.OKTETO_URL }}
 
     - name: Create namespace
       uses: okteto/create-namespace@master
       with:
-        namespace: pr-${{ github.event.number }}-cindylopez
+        namespace: pr-${{ github.event.number }}-ramiro
 
     - name: Deploy Application
       uses: okteto/pipeline@master
       with:
-        namespace: pr-${{ github.event.number }}-cindylopez
+        namespace: pr-${{ github.event.number }}-ramiro
         name: pr-${{ github.event.number }}
         timeout: 10m
 
@@ -32,4 +33,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        message: "Preview environment available at https://movies-pr-${{ github.event.number }}-cindylopez.cloud.okteto.net"
+        message: "Preview environment available at https://movies-pr-${{ github.event.number }}-ramiro.dev.okteto.net"
