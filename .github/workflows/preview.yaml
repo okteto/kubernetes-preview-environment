@@ -18,12 +18,12 @@ jobs:
     - name: Create namespace
       uses: okteto/create-namespace@master
       with:
-        namespace: pr-${{ github.event.number }}-cindylopez
+        namespace: pr-${{ github.event.number }}-mnevadom
 
     - name: Deploy Application
       uses: okteto/pipeline@master
       with:
-        namespace: pr-${{ github.event.number }}-cindylopez
+        namespace: pr-${{ github.event.number }}-mnevadom
         name: pr-${{ github.event.number }}
         timeout: 10m
 
