@@ -75,7 +75,7 @@ class App extends Component {
             <div className="logo">Movies</div>
             <ul className="menu">
               <li className="selected">Home</li>
-              <li>Movies</li>
+              <li>Okteto Movies</li>
               <li>My List</li>
             </ul>
             <UserProfile user={session} />
