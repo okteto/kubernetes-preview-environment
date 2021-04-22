@@ -9,8 +9,8 @@ function startWithRetry() {
   mongo.connect(url, { 
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    connectTimeoutMS: 1000,
-    socketTimeoutMS: 1000,
+    connectTimeoutMS: 5000,
+    socketTimeoutMS: 5000,
   }, (err, client) => {
     if (err) {
       console.error(`Error connecting, retrying in 1 sec: ${err}`);
