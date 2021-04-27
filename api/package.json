@@ -5,8 +5,10 @@
   "dependencies": {
     "async": "^3.1.0",
     "express": "^4.16.4",
+    "express-prom-bundle": "^6.3.6",
     "mongodb": "^3.2.3",
     "nodemon": "^2.0.2",
+    "prom-client": "^13.1.0",
     "saslprep": "^1.0.3"
   },
   "scripts": {

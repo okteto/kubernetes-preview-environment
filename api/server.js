@@ -1,7 +1,10 @@
 const express = require("express");
 const mongo = require("mongodb").MongoClient;
+const promBundle = require("express-prom-bundle");
+const promMetrics = promBundle({includePath: true});
 
 const app = express();
+app.use(promMetrics);
 
 const url = `mongodb://${process.env.MONGODB_USERNAME}:${encodeURIComponent(process.env.MONGODB_PASSWORD)}@${process.env.MONGODB_HOST}:27017/${process.env.MONGODB_DATABASE}`;
 
@@ -21,6 +24,8 @@ function startWithRetry() {
     const db = client.db(process.env.MONGODB_DATABASE);
 
     app.listen(8080, () => {
+     
+
       app.get("/api/healthz", (req, res, next) => {
         res.sendStatus(200)
         return;
