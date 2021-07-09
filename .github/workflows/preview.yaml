@@ -18,7 +18,7 @@ jobs:
     - name: Create preview environment
       uses: okteto/create-preview@master
       with:
-        namespace: pr-${{ github.event.number }}-cindylopez
+        name: pr-${{ github.event.number }}-cindylopez
 
     - name: Deploy Application
       uses: okteto/pipeline@master
