@@ -18,4 +18,4 @@ jobs:
     - name: Delete namespace
       uses: okteto/destroy-preview@master
       with:
-        namespace: pr-${{ github.event.number }}-cindylopez
+        name: pr-${{ github.event.number }}-cindylopez
