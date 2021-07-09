@@ -15,8 +15,8 @@ jobs:
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
-    - name: Create namespace
-      uses: okteto/create-namespace@master
+    - name: Create preview environment
+      uses: okteto/create-preview@master
       with:
         namespace: pr-${{ github.event.number }}-cindylopez
 
