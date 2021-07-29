@@ -16,20 +16,8 @@ jobs:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Deploy preview environment
-      uses: okteto/create-preview@master
-      with:
-        name: pr-${{ github.event.number }}-cindylopez
-
-    - name: Deploy Application
-      uses: okteto/pipeline@master
-      with:
-        namespace: pr-${{ github.event.number }}-cindylopez
-        name: pr-${{ github.event.number }}
-        timeout: 10m
-
-    - name: comment PR
-      uses: okteto/notify-pr@master
+      uses: okteto/deploy-preview@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        message: "Preview environment available at https://movies-pr-${{ github.event.number }}-cindylopez.cloud.okteto.net"
+        name: pr-${{ github.event.number }}-cindylopez
