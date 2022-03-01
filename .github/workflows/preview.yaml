@@ -7,7 +7,7 @@ jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
+    - name: direboar
       uses: actions/checkout@master
 
     - name: Login
