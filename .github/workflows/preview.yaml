@@ -1,22 +1,22 @@
 on: 
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@master
 
     - name: Login
-      uses: okteto/login@main
+      uses: okteto/login@master
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Deploy preview environment
-      uses: okteto/deploy-preview@main
+      uses: okteto/deploy-preview@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
