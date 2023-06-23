@@ -20,7 +20,7 @@ class App extends Component {
       },
       session: {
         name: 'Cindy',
-        lastName: 'Lopez',
+        lastName: 'Lopezz',
         username: 'cindy',
         avatar: userAvatarImage
       },
