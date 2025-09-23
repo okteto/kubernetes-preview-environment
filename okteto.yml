@@ -41,4 +41,4 @@ test:
     image: ${OKTETO_BUILD_API_IMAGE}
     commands:
       - echo "Running API health check..."
-      - node -e "require('http').get('http://localhost:8080/api/healthz', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
+      - apk add --no-cache curl && curl -f http://localhost:8080/api/healthz
