@@ -26,11 +26,17 @@ spec:
             - load
           env:
             - name: MONGODB_PASSWORD
-              value: "Password!1@2"
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: mongodb-root-password
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: "Password!1@2"
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: mongodb-root-password
             - name: MONGODB_USERNAME
-              value: okteto
+              value: root
             - name: MONGODB_DATABASE
               value: okteto
             - name: MONGO_INITDB_DATABASE
@@ -42,11 +48,17 @@ spec:
           image: {{ if .Values.tag }}{{ .Values.api.image }}:{{ .Values.tag }}{{ else }}{{ .Values.api.image }}{{ end }}
           env:
             - name: MONGODB_PASSWORD
-              value: "Password!1@2"
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: mongodb-root-password
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: "Password!1@2"
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb
+                  key: mongodb-root-password
             - name: MONGODB_USERNAME
-              value: okteto
+              value: root
             - name: MONGODB_DATABASE
               value: okteto
             - name: MONGO_INITDB_DATABASE

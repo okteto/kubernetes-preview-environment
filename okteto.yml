@@ -7,9 +7,7 @@ build:
     context: frontend
 
 deploy:
-  # Use official MongoDB Helm chart instead of custom StatefulSet
-  - helm repo add bitnami https://charts.bitnami.com/bitnami || true
-  - helm upgrade --install mongodb bitnami/mongodb --version 13.18.5 --set auth.rootPassword="Password!1@2",auth.username="okteto",auth.password="Password!1@2",auth.database="okteto" --wait
+  # Use custom MongoDB templates with official MongoDB image
   - helm upgrade --install movies chart --set api.image=${OKTETO_BUILD_API_IMAGE} --set frontend.image=${OKTETO_BUILD_FRONTEND_IMAGE} --set tag="" --wait
 
 dev:
