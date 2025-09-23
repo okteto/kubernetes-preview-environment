@@ -10,9 +10,10 @@ jobs:
     - name: checkout
       uses: actions/checkout@v4
 
-    - name: Login
-      uses: okteto/login@2.31.0
+    - name: Context
+      uses: okteto/context@3.11.0
       with:
+        url: https://okteto.com
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Deploy preview environment
