@@ -8,15 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v4
 
     - name: Login
-      uses: okteto/login@master
+      uses: okteto/login@2.31.0
       with:
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Deploy preview environment
-      uses: okteto/deploy-preview@master
+      uses: okteto/deploy-preview@3.11.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
