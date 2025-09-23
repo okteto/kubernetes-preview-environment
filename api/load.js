@@ -1,56 +1,43 @@
-const mongo = require("mongodb").MongoClient;
+const { MongoClient } = require("mongodb");
 
-const url = `mongodb://${process.env.MONGODB_USERNAME}:${encodeURIComponent(process.env.MONGODB_PASSWORD)}@${process.env.MONGODB_HOST}:27017/${process.env.MONGODB_DATABASE}`;
+const url = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME || 'root'}:${encodeURIComponent(process.env.MONGO_INITDB_ROOT_PASSWORD || process.env.MONGODB_PASSWORD)}@${process.env.MONGODB_HOST || 'mongodb'}:27017/${process.env.MONGO_INITDB_DATABASE || process.env.MONGODB_DATABASE || 'okteto'}?authSource=admin`;
 
-var insert = function(collection, data, resolve, reject) {
+async function insert(collection, data) {
   const d = require(data);
   d.results.forEach((doc) => {
     doc._id = doc.id;
   });
-  collection.insertMany(d.results, (err, r) => {
-    if (err) {
-      if (err.code != 11000) {
-        return reject(err);
-      }
+  
+  try {
+    await collection.insertMany(d.results);
+  } catch (err) {
+    if (err.code !== 11000) {
+      throw err;
     }
-
-    resolve();
-  });
+    // Ignore duplicate key errors
+  }
 }
 
-function loadWithRetry() {
-  mongo.connect(url, { 
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    connectTimeoutMS: 300,
-    socketTimeoutMS: 300,
-  }, (err, client) => {
-    if (err) {
-      console.error(`Error connecting, retrying in 300 msec: ${err}`);
-      setTimeout(loadWithRetry, 300);
-      return;
-    }
+async function loadWithRetry() {
+  try {
+    const client = await MongoClient.connect(url, { 
+      connectTimeoutMS: 300,
+      socketTimeoutMS: 300,
+    });
 
-    var promises = [];
-    db = client.db(process.env.MONGODB_DATABASE);
-    promises.push(new Promise((resolve, reject)=>{
-      insert(db.collection('movies'), "./data/movies.json", resolve, reject);
-    }));
+    const db = client.db(process.env.MONGO_INITDB_DATABASE || process.env.MONGODB_DATABASE || 'okteto');
+    
+    const promises = [];
+    promises.push(insert(db.collection('movies'), "./data/movies.json"));
+    promises.push(insert(db.collection('watching'), "./data/watching.json"));
   
-    promises.push(new Promise((resolve, reject)=>{
-      insert(db.collection('watching'), "./data/watching.json", resolve, reject);
-    }));
-  
-    Promise.all(promises)
-    .then(function() { 
-      console.log('all loaded'); 
-      process.exit(0);
-    })
-    .catch((err) => {
-      console.error(`fail to load: ${err}`);
-      process.exit(1);
-    });      
-  });
+    await Promise.all(promises);
+    console.log('all loaded'); 
+    process.exit(0);
+  } catch (err) {
+    console.error(`Error connecting, retrying in 300 msec: ${err}`);
+    setTimeout(loadWithRetry, 300);
+  }
 };
 
 loadWithRetry();

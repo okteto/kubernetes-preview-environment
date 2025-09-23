@@ -20,34 +20,36 @@ spec:
       terminationGracePeriodSeconds: 0
       initContainers:
         - name: load-data
-          image: {{ .Values.api.image }}:{{ .Values.tag }}
+          image: {{ if .Values.tag }}{{ .Values.api.image }}:{{ .Values.tag }}{{ else }}{{ .Values.api.image }}{{ end }}
           command:
             - yarn
             - load
           env:
             - name: MONGODB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb
-                  key: mongodb-password
+              value: "Password!1@2"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "Password!1@2"
             - name: MONGODB_USERNAME
               value: okteto
             - name: MONGODB_DATABASE
+              value: okteto
+            - name: MONGO_INITDB_DATABASE
               value: okteto
             - name: MONGODB_HOST
               value: mongodb
       containers:
         - name: api
-          image: {{ .Values.api.image }}:{{ .Values.tag }}
+          image: {{ if .Values.tag }}{{ .Values.api.image }}:{{ .Values.tag }}{{ else }}{{ .Values.api.image }}{{ end }}
           env:
             - name: MONGODB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongodb
-                  key: mongodb-password
+              value: "Password!1@2"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "Password!1@2"
             - name: MONGODB_USERNAME
               value: okteto
             - name: MONGODB_DATABASE
+              value: okteto
+            - name: MONGO_INITDB_DATABASE
               value: okteto
             - name: MONGODB_HOST
               value: mongodb
