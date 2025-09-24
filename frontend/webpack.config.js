@@ -56,7 +56,7 @@ module.exports = {
     allowedHosts: 'all',
     watchFiles: ['src/**/*'],
     proxy: {
-      '/api': 'http://movies-api:8080'
+      '/api': 'http://api:8080'
     }
   },
   cache: {

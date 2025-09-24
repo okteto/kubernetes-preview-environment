@@ -1,9 +1,17 @@
 name: api
-command: ["bash"]
+image: ${OKTETO_BUILD_API_IMAGE}
+command: ["sh", "-c", "yarn install && yarn start"]
 forward:
   - 8080:8080
   - 9229:9229
 sync:
   - .:/src
+environment:
+  - MONGODB_HOST=mongodb
+  - MONGO_INITDB_ROOT_PASSWORD=Password!1@2
+  - MONGO_INITDB_DATABASE=okteto
+  - MONGODB_PASSWORD=Password!1@2
+  - MONGODB_USERNAME=root
+  - MONGODB_DATABASE=okteto
 persistentVolume:
   enabled: false

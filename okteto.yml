@@ -13,7 +13,7 @@ deploy:
 dev:
   api:
     image: ${OKTETO_BUILD_API_IMAGE}
-    command: ["bash"]
+    command: ["sh", "-c", "yarn install && yarn start"]
     forward:
       - 8080:8080
       - 9229:9229
@@ -23,12 +23,17 @@ dev:
       - MONGODB_HOST=mongodb
       - MONGO_INITDB_ROOT_PASSWORD=Password!1@2
       - MONGO_INITDB_DATABASE=okteto
+      - MONGODB_PASSWORD=Password!1@2
+      - MONGODB_USERNAME=root
+      - MONGODB_DATABASE=okteto
     persistentVolume:
       enabled: false
 
   frontend:
     image: ${OKTETO_BUILD_FRONTEND_IMAGE}
-    command: yarn start
+    command: ["sh", "-c", "yarn install && yarn start"]
+    forward:
+      - 3000:80
     sync:
       - frontend:/src
     persistentVolume:
