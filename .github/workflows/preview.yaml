@@ -11,13 +11,13 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Context
-      uses: okteto/context@3.11.0
+      uses: okteto/context@latest
       with:
         url: https://okteto.com
         token: ${{ secrets.OKTETO_TOKEN }}
 
     - name: Deploy preview environment
-      uses: okteto/deploy-preview@3.11.0
+      uses: okteto/deploy-preview@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
