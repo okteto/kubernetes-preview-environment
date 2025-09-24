@@ -5,6 +5,9 @@ build:
     context: api
   frontend:
     context: frontend
+  frontend-dev:
+    context: frontend
+    target: dev
 
 deploy:
   # Use custom MongoDB templates with official MongoDB image
@@ -30,7 +33,7 @@ dev:
       enabled: false
 
   frontend:
-    image: ${OKTETO_BUILD_FRONTEND_IMAGE}
+    image: ${OKTETO_BUILD_FRONTEND_DEV_IMAGE}
     command: ["sh", "-c", "yarn install && yarn start"]
     forward:
       - 3000:80
