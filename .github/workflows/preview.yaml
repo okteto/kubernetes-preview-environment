@@ -1,23 +1,28 @@
-on: 
+# file: .github/workflows/preview.yaml
+on:
   pull_request:
     branches:
       - master
 
+concurrency:
+  # more info here: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+  
 jobs:
   preview:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@master
+      - name: Context
+        uses: okteto/context@latest
+        with:
+          url: ${{secrets.OKTETO_URL}}
+          token: ${{ secrets.OKTETO_TOKEN }}
 
-    - name: Login
-      uses: okteto/login@master
-      with:
-        token: ${{ secrets.OKTETO_TOKEN }}
-
-    - name: Deploy preview environment
-      uses: okteto/deploy-preview@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        name: pr-${{ github.event.number }}-cindylopez
+      - name: Deploy preview environment
+        uses: okteto/deploy-preview@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: pr-${{ github.event.number }}
+          timeout: 15m

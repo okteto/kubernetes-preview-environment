@@ -36,15 +36,8 @@ module.exports = {
       include: srcPath,
       use: ['style-loader', 'css-loader']
     }, {
-      test: /\.(png|jpg|gif)$/i,
-      use: [
-        {
-          loader: 'url-loader',
-          options: {
-            limit: 8192,
-          },
-        },
-      ],
+      test: /\.(png|jpg|gif|ico)$/i,
+      type: 'asset/resource',
     }]
   },
   plugins: [
@@ -57,13 +50,13 @@ module.exports = {
     port: 80,
     host: '0.0.0.0',
     hot: true,
-    sockPort: 443,
-    disableHostCheck: true,
-    watchOptions: {
-      poll: true
+    client: {
+      webSocketURL: 'wss://0.0.0.0:443/ws'
     },
+    allowedHosts: 'all',
+    watchFiles: ['src/**/*'],
     proxy: {
-      '/api': 'http://movies-api:8080'
+      '/api': 'http://api:8080'
     }
   },
   cache: {

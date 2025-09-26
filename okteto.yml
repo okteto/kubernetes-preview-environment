@@ -1,0 +1,60 @@
+icon: https://apps.okteto.com/movies/icon.png
+
+build:
+  api:
+    context: api
+  frontend:
+    context: frontend
+  frontend-dev:
+    context: frontend
+    target: dev
+
+deploy:
+  # Use custom MongoDB templates with official MongoDB image
+  - helm upgrade --install movies chart --set api.image=${OKTETO_BUILD_API_IMAGE} --set frontend.image=${OKTETO_BUILD_FRONTEND_IMAGE} --set tag="" --wait
+
+dev:
+  api:
+    image: ${OKTETO_BUILD_API_IMAGE}
+    command: ["sh", "-c", "yarn install && yarn start"]
+    forward:
+      - 8080:8080
+      - 9229:9229
+    sync:
+      - api:/src
+    environment:
+      - MONGODB_HOST=mongodb
+      - MONGO_INITDB_ROOT_PASSWORD=Password!1@2
+      - MONGO_INITDB_DATABASE=okteto
+      - MONGODB_PASSWORD=Password!1@2
+      - MONGODB_USERNAME=root
+      - MONGODB_DATABASE=okteto
+    persistentVolume:
+      enabled: false
+
+  frontend:
+    image: ${OKTETO_BUILD_FRONTEND_DEV_IMAGE}
+    command: ["sh", "-c", "yarn install && yarn start"]
+    forward:
+      - 3000:80
+    sync:
+      - frontend:/src
+    persistentVolume:
+      enabled: false
+
+test:
+  api-e2e:
+    image: ${OKTETO_BUILD_API_IMAGE}
+    commands:
+      - echo "Starting comprehensive API end-to-end tests..."
+      - echo "Waiting for API and database to be ready..."
+      - sleep 10
+      - cd /src && API_HOST=api API_PORT=8080 node e2e-test.js
+
+  integration:
+    image: ${OKTETO_BUILD_FRONTEND_DEV_IMAGE}
+    commands:
+      - echo "Starting frontend and API integration tests..."
+      - echo "Waiting for all services to be ready..."
+      - sleep 15
+      - cd /src && FRONTEND_HOST=frontend FRONTEND_PORT=80 API_HOST=api API_PORT=8080 node e2e-test.js

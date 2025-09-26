@@ -19,46 +19,36 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       securityContext:
-        fsGroup: 1001      
-      initContainers:
+        fsGroup: 999
       containers:
       - name: mongodb
-        image: docker.io/bitnami/mongodb:4.0.12-debian-9-r43
+        image: mongo:7.0-jammy
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1001
+          runAsUser: 999
+          runAsGroup: 999
         env:
-        - name: MONGODB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mongodb
-              key: mongodb-password
-        - name: MONGODB_ROOT_PASSWORD
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "root"
+        - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mongodb
               key: mongodb-root-password
-        - name: MONGODB_USERNAME
+        - name: MONGO_INITDB_DATABASE
           value: "okteto"
-        - name: MONGODB_SYSTEM_LOG_VERBOSITY
-          value: "0"
-        - name: MONGODB_DISABLE_SYSTEM_LOG
-          value: "no"
-        - name: MONGODB_DATABASE
-          value: "okteto"
-        - name: MONGODB_ENABLE_IPV6
-          value: "no"
-        - name: MONGODB_ENABLE_DIRECTORY_PER_DB
-          value: "no"
         ports:
         - name: mongodb
           containerPort: 27017
         volumeMounts:
         - name: data
-          mountPath: /bitnami/mongodb
-          subPath: 
+          mountPath: /data/db
         resources:
-          {}
+          limits:
+            memory: 512Mi
+            cpu: 500m
+          requests:
+            memory: 256Mi
+            cpu: 100m
       volumes:
       - name: data
         emptyDir: {}

@@ -1,6 +1,8 @@
 name: frontend
-image: okteto/movies-frontend:dev
-command: yarn start
+image: ${OKTETO_BUILD_FRONTEND_DEV_IMAGE}
+command: ["sh", "-c", "yarn install && yarn start"]
+forward:
+  - 3000:80
 sync:
   - .:/src
 persistentVolume:
