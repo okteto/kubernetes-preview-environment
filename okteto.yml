@@ -43,8 +43,18 @@ dev:
       enabled: false
 
 test:
-  api:
+  api-e2e:
     image: ${OKTETO_BUILD_API_IMAGE}
     commands:
-      - echo "Running API health check..."
-      - apk add --no-cache curl && curl -f http://localhost:8080/api/healthz
+      - echo "Starting comprehensive API end-to-end tests..."
+      - echo "Waiting for API and database to be ready..."
+      - sleep 10
+      - cd /src && API_HOST=api API_PORT=8080 node e2e-test.js
+
+  integration:
+    image: ${OKTETO_BUILD_FRONTEND_DEV_IMAGE}
+    commands:
+      - echo "Starting frontend and API integration tests..."
+      - echo "Waiting for all services to be ready..."
+      - sleep 15
+      - cd /src && FRONTEND_HOST=frontend FRONTEND_PORT=80 API_HOST=api API_PORT=8080 node e2e-test.js
